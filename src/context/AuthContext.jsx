@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/auth/user', { withCredentials: true });
+        const res = await axios.get('${process.env.REACT_APP_API_URL}/api/auth/user', { withCredentials: true });
         setUser(res.data);
       } catch (err) {
         setUser(null);
@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const logout = async () => {
-    await axios.post('http://localhost:5000/api/auth/logout', {}, { withCredentials: true });
+    await axios.post('${process.env.REACT_APP_API_URL}/api/auth/logout', {}, { withCredentials: true });
     setUser(null);
   };
 

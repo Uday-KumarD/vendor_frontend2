@@ -19,7 +19,7 @@ function VendorForm() {
 
   useEffect(() => {
     if (id) {
-      axios.get(`http://localhost:5000/api/vendors/${id}`, { withCredentials: true })
+      axios.get(`${process.env.REACT_APP_API_URL}/api/vendors/${id}`, { withCredentials: true })
         .then(res => setVendor(res.data))
         .catch(err => console.error(err));
     }

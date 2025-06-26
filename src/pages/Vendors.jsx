@@ -12,7 +12,7 @@ function Vendors() {
   useEffect(() => {
     const fetchVendors = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/vendors?page=${currentPage}&limit=${vendorsPerPage}`, { withCredentials: true });
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/vendors?page=${currentPage}&limit=${vendorsPerPage}`, { withCredentials: true });
         setVendors(res.data.vendors);
         setTotalPages(res.data.totalPages);
       } catch (err) {

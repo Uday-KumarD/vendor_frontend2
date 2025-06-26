@@ -5,7 +5,7 @@ function VendorList({ vendors, setVendors }) {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this vendor?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/vendors/${id}`, { withCredentials: true });
+        await axios.delete(`${process.env.REACT_APP_API_URL}/api/vendors/${id}`, { withCredentials: true });
         setVendors(vendors.filter(vendor => vendor._id !== id));
       } catch (err) {
         console.error(err);
