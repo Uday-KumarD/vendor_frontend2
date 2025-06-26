@@ -49,9 +49,9 @@ function VendorForm() {
     }
     try {
       if (id) {
-        await axios.put(`http://localhost:5000/api/vendors/${id}`, vendor, { withCredentials: true });
+        await axios.put(`${process.env.REACT_APP_API_URL}/api/vendors/${id}`, vendor, { withCredentials: true });
       } else {
-        await axios.post('http://localhost:5000/api/vendors', vendor, { withCredentials: true });
+        await axios.post('${process.env.REACT_APP_API_URL}/api/vendors', vendor, { withCredentials: true });
       }
       navigate('/vendors');
     } catch (err) {

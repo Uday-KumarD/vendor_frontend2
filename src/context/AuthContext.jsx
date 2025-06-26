@@ -9,9 +9,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get('${process.env.REACT_APP_API_URL}/api/auth/user', { withCredentials: true });
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/user`, { withCredentials: true });
         setUser(res.data);
       } catch (err) {
+        console.error('Auth Check Error:', err);
         setUser(null);
       }
     };
@@ -19,8 +20,12 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const logout = async () => {
-    await axios.post('${process.env.REACT_APP_API_URL}/api/auth/logout', {}, { withCredentials: true });
-    setUser(null);
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/logout`, {}, { withCredentials: true });
+      setUser(null);
+    } catch (err) {
+      console.error('Logout Error:', err);
+    }
   };
 
   return (
