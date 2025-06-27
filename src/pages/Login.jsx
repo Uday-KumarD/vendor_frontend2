@@ -23,8 +23,7 @@ function Login() {
           setUser(res.data);
           navigate('/vendors', { replace: true });
         })
-        .catch(err => {
-          console.error('User Fetch Error:', err);
+        .catch(() => {
           setError('Failed to fetch user data');
           localStorage.removeItem('token');
         });
@@ -35,29 +34,24 @@ function Login() {
 
   const handleGoogleLogin = async (credentialResponse) => {
     try {
-      if (!credentialResponse.credential) {
-        throw new Error('No credential received from Google');
-      }
+      if (!credentialResponse.credential) throw new Error('No credential received from Google');
       const response = await axios.post('/api/auth/google', { token: credentialResponse.credential });
       localStorage.setItem('token', response.data.token);
       setUser(response.data.user);
-      setError('');
       navigate('/vendors', { replace: true });
     } catch (err) {
-      console.error('Google Login Error:', err.response?.data || err.message);
       setError('Google Login failed: ' + (err.response?.data?.message || err.message));
     }
   };
 
   if (!clientId) {
-    setError('Google Client ID is missing');
-    return <div className="text-red-500 text-center mt-10">{error}</div>;
+    return <div className="text-red-500 text-center mt-10">Google Client ID is missing</div>;
   }
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
-        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-transparent bg-clip-text mb-6">
+        <h1 className="text-5xl font-extrabold bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-transparent bg-clip-text mb-10">
           Vendors App
         </h1>
         <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-lg">
@@ -66,10 +60,7 @@ function Login() {
           <div className="flex justify-center">
             <GoogleLogin
               onSuccess={handleGoogleLogin}
-              onError={() => {
-                console.error('Google Login Failed');
-                setError('Google Login failed');
-              }}
+              onError={() => setError('Google Login failed')}
             />
           </div>
         </div>
