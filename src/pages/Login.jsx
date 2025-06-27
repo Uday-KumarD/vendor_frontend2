@@ -14,7 +14,7 @@ function Login() {
   console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_URL}/api/auth/user`, { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_API_URL}/api/auth/user`)
       .then(res => {
         if (res.data) {
           setUser(res.data);
@@ -37,8 +37,7 @@ function Login() {
       }
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/google`,
-        { token: credentialResponse.credential },
-        { withCredentials: true }
+        { token: credentialResponse.credential }
       );
       setUser(response.data.user);
       setError('');
@@ -50,7 +49,7 @@ function Login() {
   };
 
   if (!clientId) {
-    setError('Google Client ID is missing. Please check environment variables.');
+    setError('Google Client ID is missing');
     return <div className="text-red-500">{error}</div>;
   }
 
@@ -61,7 +60,7 @@ function Login() {
         console.error('Google OAuth script failed to load');
         setError('Failed to load Google OAuth script');
       }}
-      onScriptLoadSuccess={() => console.log('Google OAuth script loaded successfully')}
+      onScriptLoadSuccess={() => console.log('Google OAuth script loaded')}
     >
       <div className="max-w-xl mx-auto p-4 bg-white rounded-lg shadow-lg mt-6">
         <h2 className="text-2xl font-bold text-blue-600 mb-4">Login</h2>

@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/user`, { withCredentials: true });
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/user`);
         setUser(res.data);
       } catch (err) {
         if (err.response?.status !== 401) {
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/logout`, {}, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/logout`);
       setUser(null);
     } catch (err) {
       console.error('Logout Error:', err);
