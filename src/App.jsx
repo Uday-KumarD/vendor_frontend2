@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from './context/AuthContext';
 import Login from './pages/Login';
@@ -8,14 +8,17 @@ import Navbar from './components/Navbar';
 
 function App() {
   const { user, isLoading } = useContext(AuthContext);
+  const location = useLocation();
 
   if (isLoading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    return <div className="flex justify-center items-center h-screen text-2xl font-bold">Loading...</div>;
   }
 
+  const isLoginPage = location.pathname === '/login';
+
   return (
-    <div>
-      <Navbar />
+    <div className="min-h-screen bg-gray-100 font-sans">
+      {!isLoginPage && <Navbar />}
       <Routes>
         <Route
           path="/login"
