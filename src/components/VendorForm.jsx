@@ -19,7 +19,7 @@ function VendorForm() {
 
   useEffect(() => {
     if (id) {
-      axios.get(`${process.env.REACT_APP_API_URL}/api/vendors/${id}`, { withCredentials: true })
+      axios.get(`${import.meta.env.VITE_API_URL}/api/vendors/${id}`, { withCredentials: true })
         .then(res => setVendor(res.data))
         .catch(err => console.error(err));
     }
@@ -28,7 +28,6 @@ function VendorForm() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setVendor({ ...vendor, [name]: value });
-    // Clear error when any field changes, and check if all mandatory fields are filled
     setError('');
   };
 
@@ -49,9 +48,9 @@ function VendorForm() {
     }
     try {
       if (id) {
-        await axios.put(`${process.env.REACT_APP_API_URL}/api/vendors/${id}`, vendor, { withCredentials: true });
+        await axios.put(`${import.meta.env.VITE_API_URL}/api/vendors/${id}`, vendor, { withCredentials: true });
       } else {
-        await axios.post('${process.env.REACT_APP_API_URL}/api/vendors', vendor, { withCredentials: true });
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/vendors`, vendor, { withCredentials: true });
       }
       navigate('/vendors');
     } catch (err) {
@@ -59,7 +58,6 @@ function VendorForm() {
     }
   };
 
-  // Check if all mandatory fields are filled for enabling/disabling submit button
   const isFormValid = () => {
     const requiredFields = ['name', 'bankAccountNo', 'bankName', 'address1'];
     return requiredFields.every(field => vendor[field].trim() !== '');

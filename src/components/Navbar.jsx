@@ -1,18 +1,23 @@
 import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
 
 function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const [showLogout, setShowLogout] = useState(false); // <-- Add this line
-
+  const navigate = useNavigate();
   const toggleLogoutPopup = () => {
     setShowLogout(!showLogout);
   };
 
-  const handleLogout = () => {
-    logout();
-    setShowLogout(false);
+  const handleLogout = async () => {
+    try {
+      await logout(); // Use AuthContext's logout
+      navigate('/login', { replace: true });
+    } catch (err) {
+      console.error('Logout Error:', err);
+    }
   };
 
   return (
