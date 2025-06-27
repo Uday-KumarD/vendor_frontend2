@@ -10,7 +10,7 @@ function App() {
   const { user, isLoading } = useContext(AuthContext);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center h-screen">Loading...</div>;
   }
 
   return (

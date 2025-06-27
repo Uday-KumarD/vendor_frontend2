@@ -19,7 +19,7 @@ function CreateVendor() {
 
   useEffect(() => {
     if (id) {
-      axios.get(`${import.meta.env.VITE_API_URL}/api/vendors/${id}`)
+      axios.get(`/api/vendors/${id}`)
         .then(res => setVendorData(res.data))
         .catch(err => setError('Failed to fetch vendor: ' + (err.response?.data?.message || err.message)));
     }
@@ -29,11 +29,16 @@ function CreateVendor() {
     e.preventDefault();
     try {
       console.log('Submitting vendor:', vendorData);
-      if (id) {
-        await axios.put(`${import.meta.env.VITE_API_URL}/api/vendors/${id}`, vendorData);
-      } else {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/vendors`, vendorData);
+      if (!vendorData.name || !vendorData.bankAccountNo || !vendorData.bankName ||
+          !vendorData.address1 || !vendorData.city || !vendorData.country || !vendorData.zipCode) {
+        throw new Error('All required fields must be filled');
       }
+      if (id) {
+        await axios.put(`/api/vendors/${id}`, vendorData);
+      } else {
+        await axios.post(`/api/vendors`, vendorData);
+      }
+      setError('');
       navigate('/vendors');
     } catch (err) {
       console.error('Vendor Operation Error:', err);
@@ -46,98 +51,101 @@ function CreateVendor() {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4 bg-white rounded-lg shadow-lg mt-6">
-      <h2 className="text-2xl font-bold text-blue-600 mb-4">{id ? 'Edit Vendor' : 'Create Vendor'}</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold text-blue-600 mb-6">{id ? 'Edit Vendor' : 'Create Vendor'}</h2>
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700">Name</label>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-gray-700 font-medium">Name</label>
           <input
             type="text"
             name="name"
             value={vendorData.name}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Bank Account No</label>
+        <div>
+          <label className="block text-gray-700 font-medium">Bank Account No</label>
           <input
             type="text"
             name="bankAccountNo"
             value={vendorData.bankAccountNo}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Bank Name</label>
+        <div>
+          <label className="block text-gray-700 font-medium">Bank Name</label>
           <input
             type="text"
             name="bankName"
             value={vendorData.bankName}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Address Line 1</label>
+        <div>
+          <label className="block text-gray-700 font-medium">Address Line 1</label>
           <input
             type="text"
             name="address1"
             value={vendorData.address1}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Address Line 2</label>
+        <div>
+          <label className="block text-gray-700 font-medium">Address Line 2</label>
           <input
             type="text"
             name="address2"
             value={vendorData.address2}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">City</label>
+        <div>
+          <label className="block text-gray-700 font-medium">City</label>
           <input
             type="text"
             name="city"
             value={vendorData.city}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Country</label>
+        <div>
+          <label className="block text-gray-700 font-medium">Country</label>
           <input
             type="text"
             name="country"
             value={vendorData.country}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Zip Code</label>
+        <div>
+          <label className="block text-gray-700 font-medium">Zip Code</label>
           <input
             type="text"
             name="zipCode"
             value={vendorData.zipCode}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
           />
         </div>
-        <button type="submit" className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+        >
           {id ? 'Update Vendor' : 'Create Vendor'}
         </button>
       </form>

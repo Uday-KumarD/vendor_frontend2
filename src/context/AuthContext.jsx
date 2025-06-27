@@ -10,12 +10,14 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/user`);
-        setUser(res.data);
-      } catch (err) {
-        if (err.response?.status !== 401) {
-          console.error('Auth Check Error:', err);
+        const token = localStorage.getItem('token');
+        if (token) {
+          const res = await axios.get('/api/auth/user');
+          setUser(res.data);
         }
+      } catch (err) {
+        console.error('Auth Check Error:', err);
+        localStorage.removeItem('token');
         setUser(null);
       } finally {
         setIsLoading(false);
@@ -26,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/logout`);
+      localStorage.removeItem('token');
       setUser(null);
     } catch (err) {
       console.error('Logout Error:', err);

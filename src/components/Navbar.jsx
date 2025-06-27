@@ -16,13 +16,16 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-blue-600 p-4 text-white">
+    <nav className="bg-blue-600 p-4 text-white shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-xl font-bold">Vendor Management</h1>
         {user && (
-          <div>
-            <span className="mr-4">Welcome, {user.displayName}</span>
-            <button onClick={handleLogout} className="text-white hover:underline">
+          <div className="flex items-center space-x-4">
+            <span>Welcome, {user.displayName}</span>
+            <button
+              onClick={handleLogout}
+              className="text-white hover:bg-blue-700 px-3 py-1 rounded"
+            >
               Logout
             </button>
           </div>
