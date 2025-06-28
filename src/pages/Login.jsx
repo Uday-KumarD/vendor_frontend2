@@ -50,8 +50,8 @@ function Login() {
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
-        <h1 className="text-5xl font-extrabold bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-transparent bg-clip-text mb-10">
+      <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
+        <h1 className="text-5xl mt-20 font-extrabold bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-transparent bg-clip-text mb-10">
           Vendors App
         </h1>
         <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-lg">
