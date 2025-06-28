@@ -37,10 +37,10 @@ function Navbar() {
   return (
     <nav className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 text-white m-5 shadow-xl rounded-full flex justify-between items-center px-8 py-4 relative">
       <Link to="/vendors" className="flex items-center">
-        <span className="text-3xl font-extrabold tracking-tight hover:text-yellow-200 transition-colors">Vendors</span>
+        <span className="text-2xl font-bold tracking-tight hover:text-yellow-200 transition-colors">Vendors</span>
       </Link>
       <div className="flex items-center space-x-6">
-        <Link to="/create-vendor" className="text-white font-medium ml-6 hover:text-yellow-200 transition-colors">Create Vendor</Link>
+        <Link to="/create-vendor" className="text-white font-medium ml-4 hover:text-yellow-200 transition-colors">Create Vendor</Link>
         <Link to="/vendors" className="text-white font-medium hover:text-yellow-200 transition-colors">Vendors</Link>
         {user && (
           <div ref={logoutRef} className="relative">
