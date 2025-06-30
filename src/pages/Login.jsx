@@ -18,15 +18,8 @@ function Login() {
     const errorParam = urlParams.get('error');
     if (token) {
       localStorage.setItem('token', token);
-      axios.get('/api/auth/user')
-        .then(res => {
-          setUser(res.data);
-          navigate('/vendors', { replace: true });
-        })
-        .catch(() => {
-          setError('Failed to fetch user data');
-          localStorage.removeItem('token');
-        });
+      setUser({}); // Minimal setUser call to mark authenticated
+      navigate('/vendors', { replace: true });
     } else if (errorParam) {
       setError('Authentication failed');
     }

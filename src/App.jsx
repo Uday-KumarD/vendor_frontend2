@@ -1,10 +1,15 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from './context/AuthContext';
 import Login from './pages/Login';
 import Vendors from './pages/Vendors';
 import CreateVendor from './pages/CreateVendor';
 import Navbar from './components/Navbar';
+
+function ProtectedRoute({ children }) {
+  const { user } = useContext(AuthContext);
+  return user ? children : <Navigate to="/login" replace />;
+}
 
 function App() {
   const { user, isLoading } = useContext(AuthContext);
@@ -15,23 +20,12 @@ function App() {
 
   return (
     <div>
-      {/* Show Navbar only if user is logged in */}
       {user && <Navbar />}
-
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/vendors"
-          element={user ? <Vendors /> : <Login />}
-        />
-        <Route
-          path="/create-vendor"
-          element={user ? <CreateVendor /> : <Login />}
-        />
-        <Route
-          path="/edit-vendor/:id"
-          element={user ? <CreateVendor /> : <Login />}
-        />
+        <Route path="/vendors" element={<ProtectedRoute><Vendors /></ProtectedRoute>} />
+        <Route path="/create-vendor" element={<ProtectedRoute><CreateVendor /></ProtectedRoute>} />
+        <Route path="/edit-vendor/:id" element={<ProtectedRoute><CreateVendor /></ProtectedRoute>} />
         <Route
           path="*"
           element={

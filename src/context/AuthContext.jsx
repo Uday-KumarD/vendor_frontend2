@@ -10,18 +10,16 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setIsLoading(false);
+      return navigate('/login', { replace: true });
+    }
+
     const checkAuth = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (token) {
-          console.log('Checking auth with token:', token.substring(0, 20) + '...');
-          const res = await axios.get('/api/auth/user');
-          console.log('Auth Check Response:', res.data);
-          setUser(res.data);
-        } else {
-          console.log('No token found in localStorage');
-          navigate('/login', { replace: true });
-        }
+        const res = await axios.get('/api/auth/user');
+        setUser(res.data);
       } catch (err) {
         console.error('Auth Check Error:', err.response?.data || err.message);
         localStorage.removeItem('token');
@@ -31,12 +29,12 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(false);
       }
     };
+
     checkAuth();
   }, [navigate]);
 
   const logout = async () => {
     try {
-      console.log('Logging out, clearing token');
       localStorage.removeItem('token');
       setUser(null);
       navigate('/login', { replace: true });
